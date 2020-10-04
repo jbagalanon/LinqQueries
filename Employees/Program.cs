@@ -54,11 +54,13 @@ namespace Employees
                 new Employee {Id = 6, Name = "Rick"}
             };
 
-
+            //linq query
             Console.WriteLine("Beginning of lambda arrange by name");
             var query = developers.Where(e => e.Name.Length == 6)
                 .OrderBy(e => e.Name);
+            // pwedi rin to pero wal na value .select (e=>e)
 
+            
             foreach (var employee in query)
 
             {
@@ -68,6 +70,18 @@ namespace Employees
 
             }
 
+            //c sharp query
+            Console.WriteLine("Start of query 2");
+            var query2 = from developer in developers
+                where developer.Name.Length == 6
+                orderby developer.Name //descendeing = descending order
+                select developer;
+
+            foreach (var employee in query2)
+            {
+                Console.WriteLine(employee.Name);
+                
+            }
         }
 
         private static bool NameStartsWithS(Employee employee)
