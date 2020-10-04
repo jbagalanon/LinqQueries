@@ -22,25 +22,27 @@ namespace Queries
                 new Movie {Title = "Return Of the Living Dead", Rating = 9.2F, Year = 2017},
                 new Movie {Title = "Star Wars Return", Rating = 8.1F, Year = 1989}
             };
+            /*
+                //extension method
+                var query = movies.Filter(m => m.Year > 2000)
+                    .OrderByDescending(m=>m.Rating);
+        */
 
-
-
-
-            //extension method 
-
-            var query = movies.Where(m => m.Year > 2000)
-                .OrderByDescending(m=>m.Rating);
+            var query = from movie in movies
+                        where movie.Year > 2000
+                        orderby movie.Rating descending
+                        select movie;
 
             var enumerator = query.GetEnumerator();
 
             while (enumerator.MoveNext())
             {
                 Console.WriteLine(enumerator.Current.Title);
-                
+
             }
 
 
-          
+
         }
     }
 }
