@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Queries
 {
-    class Movie
+    public class Movie
     {
         public string Title { get; set; }
         public float Rating { get; set; }
