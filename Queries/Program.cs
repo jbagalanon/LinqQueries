@@ -26,9 +26,10 @@ namespace Queries
 
 
 
-            //extension method
+            //extension method 
 
-            var query = movies.Filter(m => m.Year > 2000);
+            var query = movies.Where(m => m.Year > 2000)
+                .OrderByDescending(m=>m.Rating);
 
             var enumerator = query.GetEnumerator();
 
