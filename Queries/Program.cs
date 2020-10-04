@@ -11,7 +11,19 @@ namespace Queries
     {
         static void Main(string[] args)
         {
-            // initialte movie data
+            var numbers = MyLinq.Random()
+                .Where(n => n > 0.5).Take(10);
+
+            foreach (var number in numbers)
+            {
+                Console.WriteLine(number);
+            }
+
+
+
+
+
+            // initiate movie data
 
             var movies = new List<Movie>
             {
