@@ -10,7 +10,7 @@ namespace Queries
     {
 
 
-        public static IEnumerable<T> Filter <T>(this IEnumerator<T> source,   Func<T, bool>predicate)
+        public static IEnumerable<T> Filter <T>(this IEnumerable<T> source,   Func<T, bool>predicate)
         {
             var result = new List<T>();
 
