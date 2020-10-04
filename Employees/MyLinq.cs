@@ -10,7 +10,7 @@ namespace Employees
     {
         public static int Count<T>(IEnumerable<T>sequence)
         {
-            int count = 0;
+            var count = 0;
             foreach (var item in sequence)
             {
                 count += 1;
