@@ -20,6 +20,16 @@ namespace Employees
 
             //takes two integers and output integers
             Func<int, int, int> add = (int x, int y) => x + y;
+
+            /*
+            //alternative solution
+            Func<int, int, int> add =( x,  y) =>
+            {
+                int temp = x + y;
+                return temp;
+            };
+            */
+
             Console.WriteLine(square(add(3,5)));
             Console.WriteLine("End of dual input");
             Console.WriteLine();
