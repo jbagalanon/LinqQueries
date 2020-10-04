@@ -10,15 +10,15 @@ namespace Employees
     {
         static void Main(string[] args)
         {
-           
+            #region Function Starts
             //takes integers and output integers
-            Func<int, int> square= x => x * x;
+            Func<int, int> square = x => x * x;
             Console.WriteLine(square(3));
             Console.WriteLine("End of multiplication function");
             Console.WriteLine();
 
 
-            //takes two integers and output integers
+            //takes two integers and outpyut integers
             Func<int, int, int> add = (int x, int y) => x + y;
 
             /*
@@ -30,9 +30,16 @@ namespace Employees
             };
             */
 
-            Console.WriteLine(square(add(3,5)));
+            //Action method always retunr a boolean
+            Action<int> write = x => Console.WriteLine(x);
+
+            write(square(add(4, 5)));
+
+            Console.WriteLine(square(add(3, 5)));
             Console.WriteLine("End of dual input");
             Console.WriteLine();
+            #endregion
+
 
             IEnumerable<Employee> developers = new Employee[]
             {
@@ -56,22 +63,23 @@ namespace Employees
                 Console.WriteLine(enumerator.Current.Name);
             }
 
-            foreach (var employee in developers.Where(e
-                => e.Name.StartsWith("S")  
-            ))
+
+            Console.WriteLine("Beginning of lambda arrange by name");
+            foreach (var employee in developers.Where(e=>e.Name.Length==6).OrderBy(e=>e.Name))
+
             {
-                Console.WriteLine("");
+             
                 Console.WriteLine(employee.Name);
-              
+
+
 
             }
- 
-      
+       
         }
 
         private static bool NameStartsWithS(Employee employee)
         {
-            return employee.Name.StartsWith("S"); 
+            return employee.Name.StartsWith("S");
         }
     }
 }
