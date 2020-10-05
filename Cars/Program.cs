@@ -33,7 +33,6 @@ namespace Cars
                     Console.WriteLine(character);
                    
 
-
             }
             Console.ReadKey();
 
