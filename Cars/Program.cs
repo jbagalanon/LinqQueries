@@ -19,11 +19,23 @@ namespace Cars
                          orderby car.Combined descending, car.Name ascending
                          select car;
 
+
+            /* first options
             var top = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                 .OrderByDescending(c => c.Combined)
                 .ThenBy(c => c.Name)
                 .Select(c => c)
                 .First();
+
+            */
+            //second options
+
+            var top = cars
+                .OrderByDescending(c => c.Combined)
+                .ThenBy(c => c.Name)
+                .Select(c => c)
+                .First(c=>c.Manufacturer =="BMW" && c.Year==2016);
+
 
             Console.WriteLine($"This is the car top efficient {top.Manufacturer} {top.Name}");
             Console.WriteLine();
