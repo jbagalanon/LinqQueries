@@ -16,33 +16,28 @@ namespace Cars
             var manufacturers = ProcessManufacturers("manufacturers.csv");
 
             var query = from car in cars
-                join manufacturer in manufacturers
-                    on new { car.Manufacturer , car.Year} 
-                    equals 
-                    new { Manufacturer = manufacturer.Name, manufacturer.Year}
-                orderby car.Combined descending, car.Name ascending
-                select new
-                {
-                    manufacturer.Headquarters,
-                    car.Name, 
-                    car.Combined
-                };
+                group car by car.Manufacturer
+                into m
+                orderby m.Key
+                select m;
 
-            var query2 = cars.Join(manufacturers,
-                c =>new { c.Manufacturer,c.Year},
-                m => new{ Manufacturer = m.Name, m.Year},
-                    (c,m) => new
-                {
-                    m.Headquarters,
-                    c.Name,
-                    c.Combined
-                });
 
-            foreach (var car in query.Take(15))
+            var query2 = cars.GroupBy(c => c.Manufacturer.ToUpper())
+                .OrderBy(g => g.Key);
+
+
+            foreach (var group in query2)
             {
-                Console.WriteLine($"{car.Headquarters} {car.Name} : {car.Combined}");
+                Console.WriteLine(group.Key);
+
+                foreach (var car in group.OrderByDescending(c=>c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
             }
-            
+
+
+
         }
 
         private static List<Manufacturer> ProcessManufacturers(string path)
@@ -71,7 +66,7 @@ namespace Cars
                 .Skip(1).Where(l => l.Length > 1).ToCar();
 
             return query.ToList();
-             
+
             //Note: nasa 6 of number 4 na ako
         }
     }
@@ -104,7 +99,7 @@ namespace Cars
         }
 
     }
-   
+
 
 }
 
