@@ -1,4 +1,5 @@
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,21 +14,31 @@ namespace Cars
         {
             var cars = ProcessFile("Fuel.csv");
 
+            var query = from car in cars
+                where car.Manufacturer == "BMW" && car.Year == 2016
+                orderby car.Combined descending, car.Name ascending
+                select new
+                {
+                    car.Manufacturer,
+                    car.Name,
+                    car.Combined
+                };
 
-            //any means any dataset
-            var result = cars.Any(c => c.Manufacturer == "Ford");
+            var result = cars.SelectMany(c => c.Name);
 
 
-            Console.WriteLine(result);
-            Console.WriteLine();
-
-            var query = cars.OrderByDescending(c => c.Combined)
-                .ThenBy(c => c.Name);
-
-            foreach (var car in query.Take(20))
+            foreach (var character in result)
             {
-                Console.WriteLine($"{car.Name} : {car.Combined} ");
+               
+                    Console.WriteLine(character);
+                   
+
+
             }
+            Console.ReadKey();
+
+
+
         }
 
         private static List<Car> ProcessFile(string path)
