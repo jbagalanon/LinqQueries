@@ -58,7 +58,7 @@ namespace Cars
                 .Skip(1).Where(l => l.Length > 1).ToCar();
 
             return query.ToList();
-
+             
             //Note: nasa 6 of number 4 na ako
         }
     }
