@@ -14,36 +14,17 @@ namespace Cars
             var cars = ProcessFile("Fuel.csv");
 
 
-            var query1 = from car in cars
-                         where car.Manufacturer == "BMW" && car.Year == 2016
-                         orderby car.Combined descending, car.Name ascending
-                         select car;
+            //any means any dataset
+            var result = cars.Any(c => c.Manufacturer == "Ford");
 
 
-            /* first options
-            var top = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
-                .OrderByDescending(c => c.Combined)
-                .ThenBy(c => c.Name)
-                .Select(c => c)
-                .First();
-
-            */
-            //second options
-
-            var top = cars
-                .OrderByDescending(c => c.Combined)
-                .ThenBy(c => c.Name)
-                .Select(c => c)
-                .FirstOrDefault(c=>c.Manufacturer =="BMW" && c.Year==2016);
-
-
-            Console.WriteLine($"This is the car top efficient {top.Manufacturer} {top.Name}");
+            Console.WriteLine(result);
             Console.WriteLine();
 
             var query = cars.OrderByDescending(c => c.Combined)
-       .ThenBy(c => c.Name);
+                .ThenBy(c => c.Name);
 
-            foreach (var car in query1.Take(20))
+            foreach (var car in query.Take(20))
             {
                 Console.WriteLine($"{car.Name} : {car.Combined} ");
             }
@@ -51,29 +32,45 @@ namespace Cars
 
         private static List<Car> ProcessFile(string path)
         {
-            
-            /*
-            //first solutiongggggggggggrgggrsesw
-            return 
-            File.ReadAllLines(path)
-                .Skip(1) //skip 1 string array to avoid processing. Partition operator
-                .Where(line => line.Length > 1) //if more than 1 this is valid
-                .Select(Car.ParseFromCsv) //invoke method from model
-                .ToList();
-                */
 
-            //recommended implementation
 
-            var query = from line in File.ReadAllLines(path)
-                    .Skip(1)
-                        where line.Length > 1
-                        select Car.ParseFromCsv(line);
+            var query = File.ReadAllLines(path)
+                .Skip(1).Where(l => l.Length > 1).ToCar();
 
             return query.ToList();
 
-
             //Note: nasa 6 of number 4 na ako
+        }
+    }
+
+
+    //this is another class
+    public static class CarExtensions
+    {
+        public static IEnumerable<Car> ToCar(this IEnumerable<string> source)
+
+        {
+            foreach (var line in source)
+            {
+                var columns = line.Split(',');
+
+                yield return new Car
+
+                {
+                    Year = int.Parse(columns[0]),
+                    Manufacturer = columns[1],
+                    Name = columns[2],
+                    Displacement = double.Parse(columns[3]),
+                    Cylinders = int.Parse(columns[4]),
+                    City = int.Parse(columns[5]),
+                    Highway = int.Parse(columns[6]),
+                    Combined = int.Parse(columns[7])
+
+                };
+            }
         }
 
     }
+
 }
+
