@@ -12,7 +12,8 @@ namespace Cars
     {
         static void Main(string[] args)
         {
-            var cars = ProcessFile("Fuel.csv");
+            var cars = ProcessCars("Fuel.csv");
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
 
             var query = from car in cars
                 where car.Manufacturer == "BMW" && car.Year == 2016
@@ -24,23 +25,32 @@ namespace Cars
                     car.Combined
                 };
 
-            var result = cars.SelectMany(c => c.Name);
-
-
-            foreach (var character in result)
+            foreach (var car in query.Take(15))
             {
-               
-                    Console.WriteLine(character);
-                   
-
+                Console.WriteLine($"{car.Manufacturer} {car.Name} : {car.Combined}");
             }
-            Console.ReadKey();
-
-
-
+            
         }
 
-        private static List<Car> ProcessFile(string path)
+        private static List<Manufacturer> ProcessManufacturers(string path)
+        {
+            var query = File.ReadAllLines(path)
+                .Where(l => l.Length > 1)
+                .Select(l =>
+                {
+                    var columns = l.Split(',');
+                    return new Manufacturer
+                    {
+                        Name = columns[0],
+                        Headquarters = columns[1],
+                        Year = int.Parse(columns[2])
+                    };
+                });
+
+            return query.ToList();
+        }
+
+        private static List<Car> ProcessCars(string path)
         {
 
 
@@ -81,6 +91,7 @@ namespace Cars
         }
 
     }
+   
 
 }
 
