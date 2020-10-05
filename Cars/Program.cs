@@ -13,9 +13,25 @@ namespace Cars
         {
             var cars = ProcessFile("Fuel.csv");
 
+
+            var query1 = from car in cars
+                         where car.Manufacturer == "BMW" && car.Year == 2016
+                         orderby car.Combined descending, car.Name ascending
+                         select car;
+
+            var top = cars.Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
+                .OrderByDescending(c => c.Combined)
+                .ThenBy(c => c.Name)
+                .Select(c => c)
+                .First();
+
+            Console.WriteLine($"This is the car top efficient {top.Manufacturer} {top.Name}");
+            Console.WriteLine();
+
             var query = cars.OrderByDescending(c => c.Combined)
-                .ThenBy(c=>c.Name);
-            foreach (var car in query.Take(20))
+       .ThenBy(c => c.Name);
+
+            foreach (var car in query1.Take(20))
             {
                 Console.WriteLine($"{car.Name} : {car.Combined} ");
             }
@@ -23,8 +39,9 @@ namespace Cars
 
         private static List<Car> ProcessFile(string path)
         {
+            
             /*
-            //first solution
+            //first solutiongggggggggggrgggrsesw
             return 
             File.ReadAllLines(path)
                 .Skip(1) //skip 1 string array to avoid processing. Partition operator
@@ -37,10 +54,13 @@ namespace Cars
 
             var query = from line in File.ReadAllLines(path)
                     .Skip(1)
-                where line.Length > 1
-                select Car.ParseFromCsv(line);
+                        where line.Length > 1
+                        select Car.ParseFromCsv(line);
 
             return query.ToList();
+
+
+            //Note: nasa 6 of number 4 na ako
         }
 
     }
