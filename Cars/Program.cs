@@ -34,7 +34,7 @@ namespace Cars
                 .OrderByDescending(c => c.Combined)
                 .ThenBy(c => c.Name)
                 .Select(c => c)
-                .First(c=>c.Manufacturer =="BMW" && c.Year==2016);
+                .FirstOrDefault(c=>c.Manufacturer =="BMW" && c.Year==2016);
 
 
             Console.WriteLine($"This is the car top efficient {top.Manufacturer} {top.Name}");
